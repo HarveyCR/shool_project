@@ -3,6 +3,9 @@ import time
 from TOKEN_API import TOKEN_API
 from aiogram import Bot, Dispatcher, executor, types
 from ban_word_cheak import ban_word_cheak
+from base_chanels import chanel_base_confim, user_status_cheak
+
+# from database_conection import chanel_base_confim
 
 # from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
@@ -35,7 +38,7 @@ async def help_command(message: types.Message):
 
 @dp.message_handler(commands=["status"])
 async def status_command(message: types.Message):
-    print(message)
+    print(chanel_base_confim(message.chat.id))
     await bot.send_message(chat_id=message.from_user.id,
                            text=HELP_COMMAND, parse_mode="HTML")
 
@@ -64,10 +67,13 @@ async def start_command(message: types.Message):
 
 @dp.message_handler()
 async def send_answer(message: types.Message):
+    chanel_base_confim(message.chat.id)
+    user_status_cheak(message.from_user.id, message.chat.id)
+
     chat_admins = await bot.get_chat_administrators(chat_id=message.chat.id)
     admins_userId = [admins.user.id for admins in chat_admins]
 
-    print(message.from_user.id in admins_userId)
+    # print(message.from_user.id in admins_userId)
     if message.from_user.id == 777000:
         await message.reply(text=WARNING_MESSAGE, parse_mode='HTML')
 
