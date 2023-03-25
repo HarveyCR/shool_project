@@ -84,9 +84,9 @@ async def send_answer(message: types.Message):
     else:
         if ban_word_cheak(message.text.lower()) is True and message.from_user.id not in admins_userId:
             await bot.restrict_chat_member(message.chat.id, message.from_user.id, ChatMember(can_send_messages=False),
-                                           until_date=time.time() + 31, )
+                                           until_date=time.time() + 35, )
             await bot.send_message(message.chat.id,
-                                   text="Вам запрещено отправлять сюда сообщения в течение 31 секунды.",
+                                   text="Вам запрещено отправлять сюда сообщения в течение 35 секунды.",
                                    reply_to_message_id=message.message_id)
             # await message.reply(text="Вы использовали запрещенное слово! Если такое продолжиться, вы будите забаненны!")
             # await message.delete()

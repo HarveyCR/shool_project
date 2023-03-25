@@ -1,4 +1,5 @@
 def ban_word_cheak(sentence):
+    print(sentence)
     sentence_words = sentence.lower().split(" ")
     with open('ban_words.txt') as f:
         ban_words = [word.strip("\n").lower() for word in f.readlines()]
@@ -10,7 +11,8 @@ def ban_word_cheak(sentence):
         print(ban_words, new_word)
         if new_word in ban_words:
             return True
+    return False
 
 
 if __name__ == '__main__':
-    print(ban_word_cheak("Это самый   крвссный р_о_м_б"))
+    print(ban_word_cheak("ОГО ромб!"))
