@@ -4,8 +4,9 @@ from aiogram.types import ChatMember
 
 from TOKEN_API import TOKEN_API
 from aiogram import Bot, Dispatcher, executor, types
-from ban_word_cheak import ban_word_cheak
-from base_chanels import chanel_base_confim, user_status_cheak
+from utils import ban_word_cheak
+from utils import base_chanels
+
 
 # from database_conection import chanel_base_confim
 
@@ -40,20 +41,25 @@ async def help_command(message: types.Message):
 
 @dp.message_handler(commands=["status"])
 async def status_command(message: types.Message):
-    print(chanel_base_confim(message.chat.id))
+    print(base_chanels.chanel_base_confim(message.chat.id))
     await bot.send_message(chat_id=message.from_user.id,
                            text=HELP_COMMAND, parse_mode="HTML")
 
 
 @dp.message_handler(commands=["ban"])
 async def ban_command(message: types.Message):
-    # chat_admins = await bot.get_chat_administrators(chat_id=message.chat.id)
-    # admins_userId = [admins.user.id for admins in chat_admins]
-    # if message.from_user.id not in admins_userId:
-    #     await message.reply(text="Этой командой могут пользоваться только админы!")
-    #     return
+    chat_admins = await bot.get_chat_administrators(chat_id=message.chat.id)
+    admins_userId = [admins.user.id for admins in chat_admins]
+    if message.from_user.id not in admins_userId:
+        await message.reply(text="Этой командой могут пользоваться только админы!")
+        return
+    if message.reply_to_message.from_user.id in admins_userId:
+        await bot.send_message(message.chat.id,
+                               text="Вы пытаетесь забанить админа!",
+                               reply_to_message_id=message.reply_to_message.message_id)
+        return
     # await message.reply
-    duration = 31
+    duration = 35
     message_text = "Вы были забанены админом!"
     message_box = message.text.split(" ")
     if len(message_box) == 2:
@@ -71,18 +77,18 @@ async def ban_command(message: types.Message):
 
 @dp.message_handler()
 async def send_answer(message: types.Message):
-    chanel_base_confim(message.chat.id)
-    user_status_cheak(message.from_user.id, message.chat.id)
+    base_chanels.chanel_base_confim(message.chat.id)
+    base_chanels.user_status_cheak(message.from_user.id, message.chat.id)
 
     chat_admins = await bot.get_chat_administrators(chat_id=message.chat.id)
     admins_userId = [admins.user.id for admins in chat_admins]
 
-    # print(message.from_user.id in admins_userId)
+    print(message.from_user.id in admins_userId)
     if message.from_user.id == 777000:
         await message.reply(text=WARNING_MESSAGE, parse_mode='HTML')
 
     else:
-        if ban_word_cheak(message.text.lower()) is True and message.from_user.id not in admins_userId:
+        if ban_word_cheak.ban_word_cheak(message.text.lower()) is True and message.from_user.id not in admins_userId:
             await bot.restrict_chat_member(message.chat.id, message.from_user.id, ChatMember(can_send_messages=False),
                                            until_date=time.time() + 35, )
             await bot.send_message(message.chat.id,
