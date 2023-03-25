@@ -1,5 +1,7 @@
 import time
 
+from aiogram.types import ChatMember
+
 from TOKEN_API import TOKEN_API
 from aiogram import Bot, Dispatcher, executor, types
 from ban_word_cheak import ban_word_cheak
@@ -44,12 +46,12 @@ async def status_command(message: types.Message):
 
 
 @dp.message_handler(commands=["ban"])
-async def start_command(message: types.Message):
-    chat_admins = await bot.get_chat_administrators(chat_id=message.chat.id)
-    admins_userId = [admins.user.id for admins in chat_admins]
-    if message.from_user.id not in admins_userId:
-        await message.reply(text="Этой командой могут пользоваться только админы!")
-        return
+async def ban_command(message: types.Message):
+    # chat_admins = await bot.get_chat_administrators(chat_id=message.chat.id)
+    # admins_userId = [admins.user.id for admins in chat_admins]
+    # if message.from_user.id not in admins_userId:
+    #     await message.reply(text="Этой командой могут пользоваться только админы!")
+    #     return
     # await message.reply
     duration = 31
     message_text = "Вы были забанены админом!"
@@ -58,7 +60,9 @@ async def start_command(message: types.Message):
         duration = int(message_box[1])
     elif len(message_box) > 2:
         message_text = " ".join(message_box[2:])
+
     await bot.restrict_chat_member(message.chat.id, message.reply_to_message.from_user.id,
+                                   ChatMember(can_send_messages=False),
                                    until_date=time.time() + duration)
     await bot.send_message(message.chat.id,
                            text=message_text,
