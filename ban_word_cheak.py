@@ -13,4 +13,4 @@ def ban_word_cheak(sentence):
 
 
 if __name__ == '__main__':
-    ban_word_cheak("Это самый   крвссный р_о_м_б")
+    print(ban_word_cheak("Это самый   крвссный р_о_м_б"))
