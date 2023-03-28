@@ -1,11 +1,11 @@
 import time
 
-from aiogram.types import ChatMember
+from aiogram.types import ChatPermissions
 
 from TOKEN_API import TOKEN_API
 from aiogram import Bot, Dispatcher, executor, types
 from utils import ban_word_cheak
-from utils import base_chanels
+# from utils import base_chanels
 
 from handlers import start, status, ban, help
 
@@ -50,8 +50,8 @@ async def ban_command(message: types.Message):
 
 @dp.message_handler()
 async def send_answer(message: types.Message):
-    base_chanels.chanel_base_confim(message.chat.id)
-    base_chanels.user_status_cheak(message.from_user.id, message.chat.id)
+    # base_chanels.chanel_base_confim(message.chat.id)
+    # base_chanels.user_status_cheak(message.from_user.id, message.chat.id)
 
     chat_admins = await bot.get_chat_administrators(chat_id=message.chat.id)
     admins_userId = [admins.user.id for admins in chat_admins]
@@ -62,7 +62,8 @@ async def send_answer(message: types.Message):
 
     else:
         if ban_word_cheak.ban_word_cheak(message.text.lower()) is True and message.from_user.id not in admins_userId:
-            await bot.restrict_chat_member(message.chat.id, message.from_user.id, ChatMember(can_send_messages=False),
+            await bot.restrict_chat_member(message.chat.id, message.from_user.id,
+                                           ChatPermissions(can_send_messages=False),
                                            until_date=time.time() + 35, )
             await bot.send_message(message.chat.id,
                                    text="Вам запрещено отправлять сюда сообщения в течение 35 секунды.",

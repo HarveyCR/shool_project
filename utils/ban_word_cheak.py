@@ -1,7 +1,7 @@
 def ban_word_cheak(sentence):
     print(sentence)
     sentence_words = sentence.lower().split(" ")
-    with open('ban_words.txt') as f:
+    with open('utils/ban_words.txt') as f:
         ban_words = [word.strip("\n").lower() for word in f.readlines()]
     for word in sentence_words:
         new_word = ''

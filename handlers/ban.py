@@ -1,6 +1,6 @@
 import time
 
-from aiogram.types import ChatMember
+from aiogram.types import ChatPermissions
 
 
 async def ban_command(message, bot):
@@ -28,7 +28,7 @@ async def ban_command(message, bot):
         message_text = " ".join(message_box[2:])
 
     await bot.restrict_chat_member(message.chat.id, message.reply_to_message.from_user.id,
-                                   ChatMember(can_send_messages=False),
+                                   ChatPermissions(can_send_messages=False),
                                    until_date=time.time() + duration)
     await bot.send_message(message.chat.id,
                            text=message_text,
