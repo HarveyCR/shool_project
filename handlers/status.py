@@ -13,7 +13,12 @@ async def status_command(message, bot):
     if message.chat.type == "private":
         await message.reply(text="Пропишите команду в чате группы и для получения статуса чата")
         return
-
-    print(base_chanels.chanel_base_confim(message.chat.id))
+    print(message.text.lower())
+    if "true" in message.text.lower() or "false" in message.text.lower():
+        status = base_chanels.moderation_cheack_change(message.chat.id, meaning=message.text.lower().split(" ")[1])
+        await bot.send_message(chat_id=message.from_user.id,
+                               text=f"Включение модерации: {status}", parse_mode="HTML")
+        return
+    result = base_chanels.chanel_base_confim(message.chat.id)
     await bot.send_message(chat_id=message.from_user.id,
-                           text=HELP_COMMAND, parse_mode="HTML")
+                           text=f"Включение модерации: {bool(result[0][0])}", parse_mode="HTML")

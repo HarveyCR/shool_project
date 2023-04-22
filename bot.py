@@ -8,6 +8,7 @@ from utils import ban_word_cheak
 # from utils import base_chanels
 
 from handlers import start, status, ban, help
+from utils import base_chanels
 
 # from database_conection import chanel_base_confim
 
@@ -50,7 +51,7 @@ async def ban_command(message: types.Message):
 
 @dp.message_handler()
 async def send_answer(message: types.Message):
-    # base_chanels.chanel_base_confim(message.chat.id)
+    base_chanels.chanel_base_confim(message.chat.id)
     # base_chanels.user_status_cheak(message.from_user.id, message.chat.id)
 
     chat_admins = await bot.get_chat_administrators(chat_id=message.chat.id)
