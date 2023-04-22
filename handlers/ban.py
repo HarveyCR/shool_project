@@ -5,7 +5,13 @@ from aiogram.types import ChatPermissions
 
 async def ban_command(message, bot):
     if message.chat.type == "private":
-        await message.reply(text="Эта команда работает только в группах")
+        await message.reply(text="Команда для бана участников(доступно только админам паблика). Работает так:\n"
+                                 "Чтобы забанить игрока ответи на его сообщение камандой /ban его сообщение. Там может быть 2 параметра:\n"
+                                 "Продолжительности бана в секундах, не меньше 35 по умолчанию - 35\n"
+                                 "Сообщение которое увидет получатель бана - по умолчанию 'Вы были забанены админом!\n'"
+                                 "Параметры можно не прописывать и просто написать /ban но если они есть то должны прописываться строго через пробел!")
+        with open(f'K:/shool_project/shool_project/ban.png', 'rb') as photo:
+            await bot.send_photo(message.from_user.id, photo=photo)
         return
 
     chat_admins = await bot.get_chat_administrators(chat_id=message.chat.id)
