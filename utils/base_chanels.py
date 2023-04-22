@@ -1,4 +1,5 @@
 import sqlite3
+
 # import random
 
 alphabet = 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
@@ -28,7 +29,7 @@ def moderation_cheack(chanel_id):
 
 
 def moderation_cheack_change(chanel_id, meaning):
-    print(chanel_id)
+    print(chanel_id, meaning, "я тут был")
     conn = sqlite3.connect('utils/chanels_and_user.db')
     cursor = conn.cursor()
     if meaning == "true":
@@ -40,24 +41,41 @@ def moderation_cheack_change(chanel_id, meaning):
     cursor.execute(f"""UPDATE Telegram_channels SET cheack = {meaning} WHERE name_id = {chanel_id}""")
     conn.commit()
     conn.close()
+    print(meaning, "Что не работает")
     return meaning
 
 
-# def user_status_cheak(user_id, chanel_id):
-#     conn = sqlite3.connect('chanels_and_user.db')
-#     cursor = conn.cursor()
-#
-#     table = cursor.execute(f"""SELECT name_id FROM chanels_groups WHERE Telegram_ID = {chanel_id}""").fetchall()[0][0]
-#     name = cursor.execute(f"""SELECT id FROM {table} WHERE id = {user_id}""").fetchall()
-#     print(chanel_id, table, name)
-#     print(table is False)
-#     if len(name) < 1:
-#         cursor.execute(
-#             f"""INSERT INTO {table}('Id', 'violations') VALUES({user_id}, 0)""")
-#         conn.commit()
-#         conn.close()
+def forbidden_words_add(chanel_id, words):
+    # print("биба и боба")
+    conn = sqlite3.connect('utils/chanels_and_user.db')
+    cursor = conn.cursor()
+    result = cursor.execute(f"""SELECT forbidden_words FROM Telegram_channels WHERE name_id = {chanel_id}""").fetchall()
+    result = ' '.join(result[0]).split(" ") + words.split(' ')[2:]
+    cursor.execute(
+        f"""UPDATE Telegram_channels SET forbidden_words = '{' '.join(result)}' WHERE name_id = {chanel_id}""")
+    # cursor.execute(
+    #     f"""UPDATE Telegram_channels SET forbidden_words = 'кт я' WHERE name_id = -1001835833661""")
+    conn.commit()
+    conn.close()
+    return result
+
+
+def forbidden_words_remove(chanel_id, word):
+    conn = sqlite3.connect('utils/chanels_and_user.db')
+    cursor = conn.cursor()
+    result = cursor.execute(f"""SELECT forbidden_words FROM Telegram_channels WHERE name_id = {chanel_id}""").fetchall()
+    result = (' '.join(' '.join(result[0]).split(" "))).replace(word.split(' ')[2], "")
+    print(result, 'Ремув')
+    cursor.execute(
+        f"""UPDATE Telegram_channels SET forbidden_words = '{result}' WHERE name_id = {chanel_id}""")
+    # cursor.execute(
+    #     f"""UPDATE Telegram_channels SET forbidden_words = 'кт я' WHERE name_id = -1001835833661""")
+    conn.commit()
+    conn.close()
+    return [result]
 
 
 if __name__ == '__main__':
     chanel_base_confim(-156123165414456)
     # user_status_cheak(-15321564, 154965832498)
+    # print('aaa'.replace('a', ""))

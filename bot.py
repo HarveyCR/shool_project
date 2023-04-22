@@ -62,7 +62,7 @@ async def send_answer(message: types.Message):
         await message.reply(text=WARNING_MESSAGE, parse_mode='HTML')
 
     else:
-        if ban_word_cheak.ban_word_cheak(message.text.lower()) is True and message.from_user.id not in admins_userId:
+        if ban_word_cheak.ban_word_cheak(message.text.lower(), message.chat.id) is True and message.from_user.id not in admins_userId:
             await bot.restrict_chat_member(message.chat.id, message.from_user.id,
                                            ChatPermissions(can_send_messages=False),
                                            until_date=time.time() + 35, )
