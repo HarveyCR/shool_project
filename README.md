@@ -13,7 +13,7 @@ Table of Contents
 
   Ban users for a certain period of time or permanently.
   Delete messages containing obscene language or inappropriate content.
-  Use moderation commands, such as /ban, /unban, /delete, and /help.
+  Use moderation commands, such as /ban, /status, /ban, and /help.
 
 Usage
 
