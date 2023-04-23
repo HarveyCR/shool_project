@@ -21,23 +21,16 @@ To use the Telegram bot moderator, add the bot to your Telegram channel as an ad
 
 For example, to ban a user for 1 hour, type:
 
-bash
-
 /ban 3600s Message
 
-To delete a message containing obscene language, reply to the message and type:
-
-arduino
+To ban user for a certain period of time:
 
 /status
 
 For a full list of moderation commands, type:
 
-bash
-
 /help
-
-Contributing
+To list all commands:
 
 Contributions are welcome! If you have any suggestions, feature requests, or bug reports, please create an issue or submit a pull request.
 License
