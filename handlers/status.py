@@ -9,7 +9,7 @@ HELP_COMMAND = """
 
 
 async def status_command(message, bot):
-    print(message.chat.type)
+    # print(message.chat.type)
     if message.chat.type == "private":
         await message.reply(
             text="Пропишите команду в чате группы и для получения статуса чата /status:\n Выводиться поле с данными как автомотическая модерация по заданному списку(по умолчанию False) и напрямую щапрещенные слова\n"
@@ -18,7 +18,7 @@ async def status_command(message, bot):
                  "Для добавления введите '\status forbiddena словa',  для удаления '\status forbiddenr слово'")
         return
     new_words = ""
-    print(message.text.lower(), "Статус")
+    # print(message.text.lower(), "Статус")
     if "moderation" in message.text.lower():
         if "true" in message.text.lower() or "false" in message.text.lower():
             status = base_chanels.moderation_cheack_change(message.chat.id, meaning=message.text.lower().split(" ")[2])

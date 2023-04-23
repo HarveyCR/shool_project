@@ -2,7 +2,7 @@ import sqlite3
 
 
 def ban_word_cheak(sentence, chat_id):
-    print(sentence)
+    # print(sentence)
     sentence_words = sentence.lower().split(" ")
     with open('utils/ban_words.txt') as f:
         ban_words = [word.strip("\n").lower() for word in f.readlines()]
