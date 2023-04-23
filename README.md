@@ -23,14 +23,13 @@ For example, to ban a user for 1 hour, type:
 
 /ban 3600s Message
 
-To ban user for a certain period of time:
+To see personal statistics for a group:
 
 /status
 
 For a full list of moderation commands, type:
 
 /help
-To list all commands:
 
 Contributions are welcome! If you have any suggestions, feature requests, or bug reports, please create an issue or submit a pull request.
 License
