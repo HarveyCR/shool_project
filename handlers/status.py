@@ -17,6 +17,7 @@ async def status_command(message, bot):
                  "Чтобы поменять Модерауию напишите в группу '/status moderation True' для включения или '/status moderation False' для выключения\n"
                  "Для добавления введите '\status forbiddena словa',  для удаления '\status forbiddenr слово'")
         return
+    new_words = ""
     print(message.text.lower(), "Статус")
     if "moderation" in message.text.lower():
         if "true" in message.text.lower() or "false" in message.text.lower():
@@ -31,6 +32,8 @@ async def status_command(message, bot):
             new_words = base_chanels.forbidden_words_remove(message.chat.id, message.text.lower())
         else:
             pass
+    # print(new_words)
     new_words = '\n'.join(new_words)
     await bot.send_message(chat_id=message.from_user.id,
-                           text=f"Включение модерации: {bool(base_chanels.chanel_base_confim(message.chat.id)[0][0])}\n Запрещенные слова:\n {new_words.strip()}", parse_mode="HTML")
+                           text=f"Включение модерации: {bool(base_chanels.chanel_base_confim(message.chat.id)[0][0])}\n Запрещенные слова:\n {new_words.strip(' ')}", parse_mode="HTML")
+    return

@@ -10,7 +10,8 @@ def ban_word_cheak(sentence, chat_id):
     cursor = conn.cursor()
     result = cursor.execute(f"""SELECT forbidden_words FROM Telegram_channels WHERE name_id = {chat_id}""").fetchall()[0]
     conn.close()
-    ban_words = ban_words + (" ".join(result)).strip().split(" ")
+    if bool(result) is False:
+        ban_words = ban_words + (" ".join(result)).strip().split(" ")
     # print(ban_words)
     for word in sentence_words:
         new_word = ''

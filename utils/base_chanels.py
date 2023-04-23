@@ -49,8 +49,12 @@ def forbidden_words_add(chanel_id, words):
     # print("биба и боба")
     conn = sqlite3.connect('utils/chanels_and_user.db')
     cursor = conn.cursor()
-    result = cursor.execute(f"""SELECT forbidden_words FROM Telegram_channels WHERE name_id = {chanel_id}""").fetchall()
-    result = ' '.join(result[0]).split(" ") + words.split(' ')[2:]
+    result = cursor.execute(f"""SELECT forbidden_words FROM Telegram_channels WHERE name_id = {chanel_id}""").fetchall()[0]
+    print(result, words.split(' ')[2:])
+    if len(result) == 0:
+        result = words.split(' ')[2:]
+    else:
+        result = ' '.join(result).split(" ") + words.split(' ')[2:]
     cursor.execute(
         f"""UPDATE Telegram_channels SET forbidden_words = '{' '.join(result)}' WHERE name_id = {chanel_id}""")
     # cursor.execute(
